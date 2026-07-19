@@ -213,6 +213,117 @@ body.loading .hero {
   pointer-events: none;
 }
 
+/* --- Mini Music Player --- */
+#music-player {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 15px;
+  border-radius: 50px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  width: 220px;
+}
+
+#music-player:hover {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(96, 165, 250, 0.4);
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Visualizer Bars */
+.visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.visualizer span {
+  width: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+  height: 2px; /* Default stopped */
+  transition: height 0.1s ease;
+}
+
+/* Dancing animation when playing */
+#music-player.playing .visualizer span {
+  animation: dance 1s ease-in-out infinite alternate;
+}
+
+#music-player.playing .visualizer span:nth-child(2) { animation-delay: -0.4s; }
+#music-player.playing .visualizer span:nth-child(3) { animation-delay: -0.2s; }
+
+@keyframes dance {
+  0% { height: 2px; }
+  100% { height: 12px; }
+}
+
+/* Marquee Text */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100px;
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.marquee-text {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+#music-player.playing .marquee-text {
+  animation: marquee 5s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Controls */
+.player-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.ctrl-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.ctrl-btn:hover {
+  color: var(--accent);
+  background: rgba(255,255,255,0.1);
+}
+
 #audio-toggle-btn {
   position: fixed;
   bottom: 30px;
@@ -244,6 +355,121 @@ body.loading .hero {
   background: rgba(0, 0, 0, 0.05);
 }
 
+/* --- Easter Egg: Shatter Effect --- */
+#danger-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+#danger-btn:hover {
+  background: #dc2626;
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+}
+
+.danger-pulse {
+  animation: dangerPulse 2s infinite;
+}
+
+@keyframes dangerPulse {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Easter Egg Container (Behind everything) */
+.easter-egg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #020617; /* Very dark blue */
+  z-index: -2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease;
+}
+
+body.shattered .easter-egg-container {
+  opacity: 1;
+  visibility: visible;
+  z-index: 0; /* Bring above particles slightly */
+}
+
+.egg-content {
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  transform: translateY(50px) scale(0.8);
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+}
+
+body.shattered .egg-content {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.egg-title {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  color: #ef4444;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+
+.egg-desc {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  max-width: 400px;
+}
+
+.egg-whale {
+  animation: floatWhale 3s ease-in-out infinite alternate;
+}
+
+/* Shatter Animation for Main Content */
+body.shattered .navbar,
+body.shattered section,
+body.shattered footer,
+body.shattered #audio-toggle-btn {
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: transform 2s cubic-bezier(0.55, 0.085, 0.68, 0.53), opacity 1.5s ease 0.5s !important;
+}
+
+body.shattered .navbar { transform: translateY(100vh) rotate(-15deg) scale(0.8) !important; }
+body.shattered #home { transform: translateY(120vh) rotate(25deg) scale(0.6) !important; transition-delay: 0.1s !important; }
+body.shattered #about { transform: translateY(110vh) rotate(-30deg) scale(0.7) !important; transition-delay: 0.2s !important; }
+body.shattered #experience { transform: translateY(130vh) rotate(40deg) scale(0.5) !important; transition-delay: 0.3s !important; }
+body.shattered #skills { transform: translateY(105vh) rotate(-20deg) scale(0.8) !important; transition-delay: 0.4s !important; }
+body.shattered footer { transform: translateY(90vh) rotate(10deg) scale(0.9) !important; transition-delay: 0.5s !important; }
+body.shattered #audio-toggle-btn { transform: translateY(100vh) rotate(180deg) !important; }
+body.shattered #danger-btn { opacity: 0; pointer-events: none; }
+
+
 /* Make sure main content is above canvas but below cursor */
 .navbar, section, footer {
   position: relative;
@@ -251,7 +477,7 @@ body.loading .hero {
 }
 
 /* Hide cursor for desktop to use custom cursor */
-@media (hover: hover) and (pointer: fine) {
+@media (min-width: 769px) {
   body {
     cursor: none;
   }
@@ -319,7 +545,7 @@ body.loading .hero {
   transition: width 0.3s, height 0.3s, opacity 0.3s;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (min-width: 769px) {
   .custom-cursor, .custom-cursor-follower {
     display: block;
   }
@@ -1948,4 +2174,35 @@ footer::before {
   
   /* Make contact cards side by side if possible, or keep stacked but nicer */
   .contact-box { padding: 30px 15px; }
+}
+
+/* --- Holographic 3D Parallax Environment --- */
+:root {
+  --px: 0;
+  --py: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Background layers move WITH cursor */
+  .ambient-glow {
+    margin-left: calc(var(--px) * 60px);
+    margin-top: calc(var(--py) * 60px);
+    transition: margin 0.1s linear;
+  }
+
+  /* Midground layers tilt and move slightly OPPOSITE */
+  .badge, .hero-image-wrapper, .about-image, .timeline-content {
+    transform: perspective(1000px) 
+               rotateX(calc(var(--py) * -8deg)) 
+               rotateY(calc(var(--px) * 8deg)) 
+               translate3d(calc(var(--px) * -20px), calc(var(--py) * -20px), 20px) !important;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+  
+  /* Foreground texts move strongly OPPOSITE */
+  .hero-title, .section-title {
+    transform: translate3d(calc(var(--px) * -10px), calc(var(--py) * -10px), 0);
+    will-change: transform;
+  }
 }

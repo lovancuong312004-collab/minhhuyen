@@ -60,20 +60,109 @@ document.addEventListener('DOMContentLoaded', () => {
         osc.stop(audioCtx.currentTime + 1.5);
     }
 
-    if (audioToggleBtn) {
-        audioToggleBtn.addEventListener('click', () => {
-            isAudioEnabled = !isAudioEnabled;
-            const icon = audioToggleBtn.querySelector('i');
-            if (isAudioEnabled) {
-                icon.className = 'ph ph-speaker-high';
-                audioToggleBtn.classList.remove('muted');
-                initAudio();
-                playClickSound();
+    function playCrashSound() {
+        if (!isAudioEnabled || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+        
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 1.5);
+        
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(400, audioCtx.currentTime);
+        
+        gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+        
+        osc.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.5);
+    }
+
+    // --- Easter Egg Logic ---
+    const dangerBtn = document.getElementById('danger-btn');
+    const fixWebBtn = document.getElementById('fix-web-btn');
+
+    if (dangerBtn && fixWebBtn) {
+        dangerBtn.addEventListener('click', () => {
+            initAudio();
+            playCrashSound();
+            document.body.classList.add('shattered');
+        });
+
+        fixWebBtn.addEventListener('click', () => {
+            playIntroSound();
+            document.body.classList.remove('shattered');
+        });
+    }
+
+    // --- Mini Music Player ---
+    const musicPlayer = document.getElementById('music-player');
+    const bgmAudio = document.getElementById('bgm-audio');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const nextTrackBtn = document.getElementById('next-track-btn');
+    const trackNameEl = document.getElementById('track-name');
+    
+    const playlist = [
+        { name: '♪ Lofi Chill - Monda', src: 'file nhạc/mondamusic-lofi-chill-chill-542565.mp3' },
+        { name: '♪ Lofi Beats - Prettyjohn', src: 'file nhạc/prettyjohn1-lofi-beats-533426.mp3' }
+    ];
+    let currentTrackIndex = 0;
+    
+    function loadTrack(index) {
+        if (!bgmAudio) return;
+        bgmAudio.src = playlist[index].src;
+        trackNameEl.textContent = playlist[index].name;
+        bgmAudio.load();
+    }
+    
+    function playMusic() {
+        if (!bgmAudio) return;
+        bgmAudio.play().then(() => {
+            musicPlayer.classList.add('playing');
+            playPauseBtn.innerHTML = '<i class="ph-fill ph-pause"></i>';
+            isAudioEnabled = true; // Sync with sound effects
+        }).catch(e => console.log('Playback prevented', e));
+    }
+    
+    function pauseMusic() {
+        if (!bgmAudio) return;
+        bgmAudio.pause();
+        musicPlayer.classList.remove('playing');
+        playPauseBtn.innerHTML = '<i class="ph-fill ph-play"></i>';
+        isAudioEnabled = false;
+    }
+
+    if (bgmAudio && musicPlayer) {
+        bgmAudio.volume = 0.3; // Gentle background volume
+        
+        playPauseBtn.addEventListener('click', () => {
+            initAudio(); // Init Web Audio Context
+            if (bgmAudio.paused) {
+                playMusic();
             } else {
-                icon.className = 'ph ph-speaker-x';
-                audioToggleBtn.classList.add('muted');
+                pauseMusic();
             }
         });
+        
+        nextTrackBtn.addEventListener('click', () => {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            playMusic();
+        });
+        
+        bgmAudio.addEventListener('ended', () => {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            playMusic();
+        });
+        
+        loadTrack(0);
     }
 
     // 0. Intro Loading Screen
@@ -84,6 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
         introStartBtn.addEventListener('click', () => {
             initAudio();
             playIntroSound();
+            
+            // Auto-play BGM
+            if (bgmAudio && bgmAudio.paused) {
+                playMusic();
+            }
+            
             introLoader.classList.add('fade-out');
             document.body.classList.remove('loading');
             setTimeout(() => {
@@ -226,31 +321,19 @@ document.addEventListener('DOMContentLoaded', () => {
         particlesContainer.appendChild(particle);
     }
     
-    // Parallax effect on mouse move for Hero Image
-    const heroSection = document.querySelector('.hero');
-    const heroImage = document.querySelector('.hero-image-wrapper');
-    
-    if (window.innerWidth > 768) {
-        heroSection.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            heroImage.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-        
-        heroSection.addEventListener('mouseleave', () => {
-            heroImage.style.transform = `rotateY(0deg) rotateX(0deg)`;
-        });
-    }
+    // Old local parallax for Hero Image has been replaced by Global Holographic CSS Parallax
 
     // 7. Custom Cursor
     const cursor = document.querySelector('.custom-cursor');
     const cursorFollower = document.querySelector('.custom-cursor-follower');
     
-    if (cursor && cursorFollower && window.matchMedia("(pointer: fine)").matches) {
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-        let prevMouseX = 0;
+    if (cursor && cursorFollower && window.innerWidth > 768) {
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let cursorX = mouseX, cursorY = mouseY;
+        let followerX = mouseX, followerY = mouseY;
+        let prevMouseX = mouseX;
+        let globalPx = 0, globalPy = 0;
 
         document.addEventListener('mousemove', (e) => {
             prevMouseX = mouseX;
@@ -260,18 +343,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Smooth animation using requestAnimationFrame
         function animateCursor() {
+            const dx = mouseX - cursorX;
+            const dy = mouseY - cursorY;
+            
             // Whale follows cursor almost instantly
-            cursorX += (mouseX - cursorX) * 0.85;
-            cursorY += (mouseY - cursorY) * 0.85;
+            cursorX += dx * 0.85;
+            cursorY += dy * 0.85;
             
             // Bubble trail follows with more delay
             followerX += (mouseX - followerX) * 0.08;
             followerY += (mouseY - followerY) * 0.08;
             
+            // Calculate Global Parallax variables (-1 to 1)
+            const targetPx = (mouseX - window.innerWidth / 2) / (window.innerWidth / 2);
+            const targetPy = (mouseY - window.innerHeight / 2) / (window.innerHeight / 2);
+            globalPx += (targetPx - globalPx) * 0.05;
+            globalPy += (targetPy - globalPy) * 0.05;
+
+            // Apply to CSS variables on root
+            document.documentElement.style.setProperty('--px', globalPx);
+            document.documentElement.style.setProperty('--py', globalPy);
+
             cursor.style.left = `${cursorX}px`;
             cursor.style.top = `${cursorY}px`;
 
-            // Flip whale when moving left
+            // --- 2D Simple Whale Flip ---
             const movingLeft = mouseX < prevMouseX;
             cursor.style.transform = movingLeft 
                 ? 'translate(-75%, -50%) scaleX(-1)' 
