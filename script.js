@@ -1,4 +1,103 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Web Audio API Synthesizer ---
+    let audioCtx;
+    let isAudioEnabled = true;
+    const audioToggleBtn = document.getElementById('audio-toggle-btn');
+    
+    function initAudio() {
+        if (!audioCtx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    }
+
+    function playHoverSound() {
+        if (!isAudioEnabled || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.02, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+    }
+
+    function playClickSound() {
+        if (!isAudioEnabled || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+    }
+
+    function playIntroSound() {
+        if (!isAudioEnabled || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 1.5);
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.2);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.5);
+    }
+
+    if (audioToggleBtn) {
+        audioToggleBtn.addEventListener('click', () => {
+            isAudioEnabled = !isAudioEnabled;
+            const icon = audioToggleBtn.querySelector('i');
+            if (isAudioEnabled) {
+                icon.className = 'ph ph-speaker-high';
+                audioToggleBtn.classList.remove('muted');
+                initAudio();
+                playClickSound();
+            } else {
+                icon.className = 'ph ph-speaker-x';
+                audioToggleBtn.classList.add('muted');
+            }
+        });
+    }
+
+    // 0. Intro Loading Screen
+    const introLoader = document.querySelector('.intro-loader');
+    const introStartBtn = document.getElementById('intro-start-btn');
+    
+    if (introLoader && introStartBtn) {
+        introStartBtn.addEventListener('click', () => {
+            initAudio();
+            playIntroSound();
+            introLoader.classList.add('fade-out');
+            document.body.classList.remove('loading');
+            setTimeout(() => {
+                introLoader.remove();
+            }, 1000);
+        });
+    }
+
+    // Bind sounds to interactables
+    document.querySelectorAll('a, button, .magnetic-btn, .nav-link, .nav-btn, .btn, .social-link').forEach(el => {
+        el.addEventListener('mouseenter', () => playHoverSound());
+        el.addEventListener('click', () => playClickSound());
+    });
+
     // 1. Navbar scroll effect & ScrollSpy
     const navbar = document.querySelector('.navbar');
     const sections = document.querySelectorAll('section');
@@ -341,4 +440,85 @@ document.addEventListener('DOMContentLoaded', () => {
             glow.style.transform = `translateY(${scrollY * speed}px)`;
         });
     });
+
+    // 14. Interactive Particles (Bubbles)
+    const canvas = document.getElementById('particles-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        class Particle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height; // initial random spread
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + Math.random() * 100;
+                this.size = Math.random() * 4 + 1;
+                this.baseX = this.x;
+                this.speed = Math.random() * 1 + 0.5;
+                this.angle = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.y -= this.speed;
+                // Wobble
+                this.angle += 0.02;
+                this.x = this.baseX + Math.sin(this.angle) * 20;
+
+                // Mouse repel logic
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const maxDist = 100;
+
+                if (dist < maxDist) {
+                    const force = (maxDist - dist) / maxDist;
+                    this.x -= (dx / dist) * force * 5;
+                    this.y -= (dy / dist) * force * 5;
+                    this.baseX -= (dx / dist) * force * 2; // permanently push base slightly
+                }
+
+                if (this.y < -50 || this.x < -50 || this.x > width + 50) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(147, 197, 253, ${0.1 + (this.size / 10)})`; // #93C5FD with varying opacity
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 40; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    }
 });

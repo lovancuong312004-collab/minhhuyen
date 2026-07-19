@@ -14,7 +14,51 @@
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="loading">
+    <!-- Intro Loading Screen -->
+    <div class="intro-loader">
+        <div class="loader-content">
+            <div class="loader-whale">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+                    <ellipse cx="30" cy="34" rx="22" ry="16" fill="#60A5FA"/>
+                    <ellipse cx="30" cy="38" rx="16" ry="10" fill="#BFDBFE"/>
+                    <path d="M50,30 Q60,22 58,16 Q54,20 52,28" fill="#3B82F6"/>
+                    <path d="M50,38 Q60,46 58,52 Q54,48 52,40" fill="#3B82F6"/>
+                    <circle cx="16" cy="30" r="3.5" fill="#0F172A"/>
+                    <circle cx="15" cy="29" r="1.5" fill="#fff"/>
+                    <path d="M12,36 Q16,40 20,36" stroke="#1E3A5F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M28,18 Q26,10 22,6" stroke="#93C5FD" stroke-width="2" fill="none" stroke-linecap="round" class="spout"/>
+                    <circle cx="22" cy="5" r="2" fill="#93C5FD" class="spout-drop"/>
+                    <circle cx="18" cy="8" r="1.5" fill="#BFDBFE" class="spout-drop-2"/>
+                </svg>
+            </div>
+            <h1 class="loader-text">
+                <span style="animation-delay: 0.1s">M</span>
+                <span style="animation-delay: 0.15s">i</span>
+                <span style="animation-delay: 0.2s">n</span>
+                <span style="animation-delay: 0.25s">h</span>
+                <span style="animation-delay: 0.3s">&nbsp;</span>
+                <span style="animation-delay: 0.35s">H</span>
+                <span style="animation-delay: 0.4s">u</span>
+                <span style="animation-delay: 0.45s">y</span>
+                <span style="animation-delay: 0.5s">ề</span>
+                <span style="animation-delay: 0.55s">n</span>
+            </h1>
+            <p class="loader-subtext">Cử nhân Sư phạm Tiểu học</p>
+            <button id="intro-start-btn" class="btn btn-primary pulse-btn" style="opacity: 0; animation: fadeInSubtext 1s ease forwards 1.5s; margin-top: 30px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);">
+                Khám phá Thế giới của tôi <i class="ph ph-sparkle"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Particles Canvas (Interactive Bubbles) -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Audio Mute Toggle -->
+    <button id="audio-toggle-btn" class="magnetic-btn" aria-label="Toggle Audio">
+        <i class="ph ph-speaker-high"></i>
+    </button>
+
     <!-- Custom Whale Cursor -->
     <div class="custom-cursor">
         <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" class="whale-svg">
