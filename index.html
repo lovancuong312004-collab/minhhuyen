@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyễn Thị Minh Huyền | Portfolio</title>
+    <meta name="description" content="Portfolio của Nguyễn Thị Minh Huyền, Giáo viên Tiểu học tâm huyết và trách nhiệm.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Custom Whale Cursor -->
+    <div class="custom-cursor">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" class="whale-svg">
+            <!-- Body -->
+            <ellipse cx="30" cy="34" rx="22" ry="16" fill="#60A5FA"/>
+            <!-- Belly -->
+            <ellipse cx="30" cy="38" rx="16" ry="10" fill="#BFDBFE"/>
+            <!-- Tail -->
+            <path d="M50,30 Q60,22 58,16 Q54,20 52,28" fill="#3B82F6"/>
+            <path d="M50,38 Q60,46 58,52 Q54,48 52,40" fill="#3B82F6"/>
+            <!-- Eye -->
+            <circle cx="16" cy="30" r="3.5" fill="#0F172A"/>
+            <circle cx="15" cy="29" r="1.5" fill="#fff"/>
+            <!-- Smile -->
+            <path d="M12,36 Q16,40 20,36" stroke="#1E3A5F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Water spout -->
+            <path d="M28,18 Q26,10 22,6" stroke="#93C5FD" stroke-width="2" fill="none" stroke-linecap="round" class="spout"/>
+            <circle cx="22" cy="5" r="2" fill="#93C5FD" class="spout-drop"/>
+            <circle cx="18" cy="8" r="1.5" fill="#BFDBFE" class="spout-drop-2"/>
+        </svg>
+    </div>
+    <div class="custom-cursor-follower"></div>
+
+    <!-- Background Ambient Glow -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    
+    <!-- Floating Educational Particles -->
+    <div class="particles-container" id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Minh Huyền<span>.</span></a>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">Giới thiệu</a>
+                <a href="#experience" class="nav-link">Kinh nghiệm</a>
+                <a href="#skills" class="nav-link">Kỹ năng</a>
+                <a href="#contact" class="nav-btn">Liên hệ</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <i class="ph ph-list"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content reveal-left">
+                <div class="badge glow-effect">
+                    <i class="ph-fill ph-sparkle"></i>
+                    Chào mừng bạn đến với Portfolio của tôi
+                </div>
+                <h1 class="hero-title">
+                    Xin chào, tôi là <br>
+                    <div class="name-wrapper">
+                        <span class="highlight">Nguyễn Thị Minh Huyền</span>
+                        <div class="name-underline"></div>
+                    </div>
+                </h1>
+                <h2 class="hero-subtitle">
+                    <span class="cursive-text">Giáo viên Tiểu học</span> <br class="mobile-break">
+                    <span class="subtitle-divider">|</span> <span class="typing-text"></span><span class="cursor">|</span>
+                </h2>
+                <p class="hero-desc">
+                    Mang trong mình niềm yêu nghề và tinh thần trách nhiệm cao, tôi luôn mong muốn được đồng hành cùng học sinh trong quá trình học tập và phát triển toàn diện.
+                </p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary pulse-btn">
+                        Liên hệ với tôi <i class="ph ph-arrow-right"></i>
+                    </a>
+                    <a href="#about" class="btn btn-outline">
+                        Tìm hiểu thêm
+                    </a>
+                </div>
+                
+                <!-- Extra floating elements for depth -->
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+            </div>
+            
+            <div class="hero-image-wrapper reveal-right">
+                <div class="hero-image-backdrop"></div>
+                <div class="hero-image-backdrop-2"></div>
+                <!-- Ảnh đại diện 1 -->
+                <div class="hero-image-container glass-panel">
+                    <img src="anh-1.jpg" alt="Nguyễn Thị Minh Huyền" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&q=80&w=800'; this.classList.add('fallback-img');">
+                    <div class="img-overlay-gradient"></div>
+                </div>
+                <div class="floating-badge badge-1 float-anim glass-badge">
+                    <div class="badge-icon-wrapper"><i class="ph-fill ph-graduation-cap"></i></div>
+                    <div class="badge-text">
+                        <span class="badge-title">Học vấn</span>
+                        <span>Cử nhân Sư phạm</span>
+                    </div>
+                </div>
+                <div class="floating-badge badge-2 float-anim-delayed glass-badge">
+                    <div class="badge-icon-wrapper star-wrapper"><i class="ph-fill ph-star"></i></div>
+                    <div class="badge-text">
+                        <span class="badge-title">Đánh giá</span>
+                        <span>10/10 Kỹ năng SP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Scroll Down Indicator -->
+        <a href="#about" class="scroll-down-indicator" aria-label="Cuộn xuống">
+            <span class="mouse">
+                <span class="wheel"></span>
+            </span>
+            <i class="ph ph-caret-down arrows"></i>
+        </a>
+    </section>
+
+    <!-- Wave Divider: Hero → Stats -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,80 1440,60 L1440,120 L0,120 Z" fill="var(--bg-main)"/>
+        </svg>
+    </div>
+
+    <!-- Thành tích nổi bật -->
+    <section class="stats-section" id="stats">
+        <div class="section-container">
+            <div class="stats-grid">
+                <div class="stat-card reveal-up">
+                    <div class="stat-icon-ring">
+                        <i class="ph-fill ph-graduation-cap"></i>
+                    </div>
+                    <div class="stat-number" data-target="3" data-suffix="+">0</div>
+                    <div class="stat-label">Lần kiến tập & thực tập</div>
+                </div>
+                <div class="stat-card reveal-up" style="transition-delay: 100ms;">
+                    <div class="stat-icon-ring star-ring">
+                        <i class="ph-fill ph-star"></i>
+                    </div>
+                    <div class="stat-number" data-target="10" data-suffix="/10">0</div>
+                    <div class="stat-label">Điểm đánh giá chuyên môn</div>
+                </div>
+                <div class="stat-card reveal-up" style="transition-delay: 200ms;">
+                    <div class="stat-icon-ring gpa-ring">
+                        <i class="ph-fill ph-book-open-text"></i>
+                    </div>
+                    <div class="stat-number" data-target="3.42" data-decimal="true" data-suffix="">0</div>
+                    <div class="stat-label">GPA — Xếp loại Giỏi</div>
+                </div>
+                <div class="stat-card reveal-up" style="transition-delay: 300ms;">
+                    <div class="stat-icon-ring school-ring">
+                        <i class="ph-fill ph-buildings"></i>
+                    </div>
+                    <div class="stat-number" data-target="3" data-suffix="">0</div>
+                    <div class="stat-label">Trường đã cộng tác</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Divider: Stats → About -->
+    <div class="wave-divider wave-flip">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,60 C240,0 480,120 720,60 C960,0 1200,100 1440,40 L1440,120 L0,120 Z" fill="var(--bg-main)"/>
+        </svg>
+    </div>
+
+    <!-- Giới thiệu & Học vấn -->
+    <section class="about section-padding" id="about">
+        <div class="section-container">
+            <div class="section-header reveal-up">
+                <span class="section-subtitle">Về bản thân</span>
+                <h2 class="section-title">Hành trình & Mục tiêu</h2>
+            </div>
+            
+            <div class="about-content-wrapper">
+                <div class="about-image reveal-right">
+                    <div class="image-frame glass-panel">
+                        <!-- Ảnh đại diện 2 -->
+                        <img src="anh-2.jpg" alt="Lễ tốt nghiệp của Minh Huyền" class="about-img" onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=800'; this.classList.add('fallback-img');">
+                        <div class="frame-decoration"></div>
+                        <div class="frame-decoration-2"></div>
+                    </div>
+                </div>
+                
+                <div class="about-grid">
+                    <!-- Mục tiêu nghề nghiệp -->
+                    <div class="about-card reveal-up glass-card">
+                        <div class="card-icon pop-anim">
+                            <i class="ph-fill ph-target"></i>
+                        </div>
+                        <h3 class="card-title">Mục tiêu nghề nghiệp</h3>
+                        <p class="card-text">
+                            Hướng đến việc xây dựng những giờ học sinh động, khơi gợi hứng thú học tập cho học sinh. Tôi luôn tích cực trau dồi chuyên môn, kỹ năng sư phạm và kinh nghiệm thực tiễn để đóng góp cho sự phát triển của nhà trường.
+                        </p>
+                    </div>
+
+                    <!-- Học vấn -->
+                    <div class="about-card reveal-up glass-card" style="transition-delay: 100ms;">
+                        <div class="card-icon pop-anim">
+                            <i class="ph-fill ph-books"></i>
+                        </div>
+                        <h3 class="card-title">Học vấn</h3>
+                        <h4 class="school-name">Đại học Giáo dục - ĐHQG Hà Nội</h4>
+                        <p class="degree">Cử nhân ngành Giáo dục Tiểu học</p>
+                        <div class="gpa-box">
+                            <span class="gpa-label">GPA hiện tại:</span>
+                            <span class="gpa-score">3.42 <span class="gpa-max">/ 4.0</span></span>
+                            <span class="gpa-rank">Xếp loại: Giỏi</span>
+                        </div>
+                    </div>
+
+                    <!-- Chứng chỉ -->
+                    <div class="about-card reveal-up glass-card" style="transition-delay: 200ms;">
+                        <div class="card-icon pop-anim">
+                            <i class="ph-fill ph-certificate"></i>
+                        </div>
+                        <h3 class="card-title">Chứng chỉ</h3>
+                        <ul class="cert-list">
+                            <li>
+                                <i class="ph-fill ph-check-circle"></i>
+                                Chứng chỉ Tiếng Anh B1
+                            </li>
+                            <li>
+                                <i class="ph-fill ph-check-circle"></i>
+                                Chứng chỉ Tin học văn phòng
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Kinh nghiệm làm việc -->
+    <section class="experience section-padding" id="experience">
+        <div class="section-container">
+            <div class="section-header reveal-up">
+                <span class="section-subtitle">Quá trình công tác</span>
+                <h2 class="section-title">Kinh nghiệm làm việc</h2>
+            </div>
+            
+            <div class="timeline">
+                <!-- Exp 1 -->
+                <div class="timeline-item reveal-up">
+                    <div class="timeline-dot pulse-dot"></div>
+                    <div class="timeline-date">10/2025 - 04/2026</div>
+                    <div class="timeline-content hover-lift glass-card has-image">
+                        <div class="timeline-image">
+                            <img src="tieu-hoc-nguyen-trai.png" alt="Trường Tiểu học Nguyễn Trãi" onerror="this.src='https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=800';">
+                            <div class="timeline-icon"><i class="ph-fill ph-chalkboard-teacher"></i></div>
+                        </div>
+                        <div class="timeline-body">
+                            <h3>Trường Tiểu học Nguyễn Trãi</h3>
+                            <h4>Sinh viên kiến tập và thực tập</h4>
+                            <ul>
+                                <li>Trực tiếp hỗ trợ giáo viên trong một số hoạt động giảng bài, soạn kế hoạch bài dạy, hướng dẫn học sinh làm bài tập.</li>
+                                <li>Tích cực tham gia các hoạt động của trường, phát triển kĩ năng giao tiếp và xử lí tình huống sư phạm.</li>
+                                <li><span class="highlight-text">Được đánh giá điểm ý thức và kĩ năng chuyên môn: 10/10.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exp 2 -->
+                <div class="timeline-item reveal-up" style="transition-delay: 100ms;">
+                    <div class="timeline-dot pulse-dot"></div>
+                    <div class="timeline-date">10/2024 - 11/2024</div>
+                    <div class="timeline-content hover-lift glass-card has-image">
+                        <div class="timeline-image bg-white">
+                            <img src="tieu-hoc-le-loi.png" alt="Trường Tiểu học Lê Lợi" class="img-contain" onerror="this.src='https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800';">
+                            <div class="timeline-icon"><i class="ph-fill ph-chalkboard-teacher"></i></div>
+                        </div>
+                        <div class="timeline-body">
+                            <h3>Trường Tiểu học Lê Lợi</h3>
+                            <h4>Sinh viên kiến tập</h4>
+                            <ul>
+                                <li>Trực tiếp hỗ trợ giáo viên trong một số hoạt động giảng bài, soạn kế hoạch bài dạy, hướng dẫn học sinh làm bài tập.</li>
+                                <li>Tích cực tham gia các hoạt động của trường, phát triển kĩ năng giao tiếp và xử lí tình huống sư phạm.</li>
+                                <li><span class="highlight-text">Được đánh giá điểm ý thức và kĩ năng chuyên môn: 10/10.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exp 3 -->
+                <div class="timeline-item reveal-up" style="transition-delay: 200ms;">
+                    <div class="timeline-dot pulse-dot"></div>
+                    <div class="timeline-date">12/2023 - 01/2024</div>
+                    <div class="timeline-content hover-lift glass-card has-image">
+                        <div class="timeline-image">
+                            <img src="fpt-cau-giay.jpg" alt="Trường Tiểu học & THCS FPT Cầu Giấy" class="img-bottom" onerror="this.src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800';">
+                            <div class="timeline-icon"><i class="ph-fill ph-chalkboard-teacher"></i></div>
+                        </div>
+                        <div class="timeline-body">
+                            <h3>Trường Tiểu học & THCS FPT Cầu Giấy</h3>
+                            <h4>Sinh viên kiến tập</h4>
+                            <ul>
+                                <li>Hỗ trợ giáo viên trong công tác giảng dạy, chuẩn bị tài liệu học tập và quản lí lớp học.</li>
+                                <li>Hỗ trợ giáo viên trong các giờ bán trú.</li>
+                                <li><span class="highlight-text">Được đánh giá điểm ý thức và kĩ năng chuyên môn: 10/10.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Divider: Experience → Philosophy -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,80 C320,20 640,100 960,40 C1120,10 1280,70 1440,50 L1440,120 L0,120 Z" fill="var(--bg-main)"/>
+        </svg>
+    </div>
+
+    <!-- Triết lý Giáo dục -->
+    <section class="philosophy-section section-padding" id="philosophy">
+        <div class="section-container">
+            <div class="philosophy-wrapper reveal-up">
+                <div class="philosophy-quote-area">
+                    <div class="quote-mark"><i class="ph-fill ph-quotes"></i></div>
+                    <blockquote class="philosophy-quote">
+                        Mỗi đứa trẻ là một ngôi sao — việc của người thầy là giúp các em tỏa sáng.
+                    </blockquote>
+                    <p class="quote-author">— Nguyễn Thị Minh Huyền</p>
+                </div>
+                <div class="philosophy-pillars">
+                    <div class="pillar-card tilt-card reveal-up">
+                        <div class="pillar-icon"><i class="ph-fill ph-heart"></i></div>
+                        <h3>Tâm Huyết</h3>
+                        <p>Yêu thương học trò bằng cả trái tim, lắng nghe và đồng hành trên mọi chặng đường trưởng thành.</p>
+                    </div>
+                    <div class="pillar-card tilt-card reveal-up" style="transition-delay: 100ms;">
+                        <div class="pillar-icon"><i class="ph-fill ph-lightbulb"></i></div>
+                        <h3>Sáng Tạo</h3>
+                        <p>Không ngừng tìm tòi, đổi mới phương pháp giảng dạy, biến mỗi tiết học thành hành trình khám phá.</p>
+                    </div>
+                    <div class="pillar-card tilt-card reveal-up" style="transition-delay: 200ms;">
+                        <div class="pillar-icon"><i class="ph-fill ph-shield-check"></i></div>
+                        <h3>Trách Nhiệm</h3>
+                        <p>Cam kết mang đến môi trường học tập an toàn, công bằng và phát triển toàn diện cho mỗi em.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Divider: Philosophy → Skills -->
+    <div class="wave-divider wave-flip">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,40 C180,100 360,0 540,60 C720,120 900,20 1080,80 C1260,120 1380,60 1440,80 L1440,120 L0,120 Z" fill="var(--bg-main)"/>
+        </svg>
+    </div>
+
+    <!-- Kỹ năng -->
+    <section class="skills section-padding" id="skills">
+        <div class="section-container">
+            <div class="section-header reveal-up">
+                <span class="section-subtitle">Năng lực</span>
+                <h2 class="section-title">Kỹ năng nổi bật</h2>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card skill-color-1 reveal-up glass-card">
+                    <div class="skill-decoration"></div>
+                    <div class="skill-icon bounce-anim"><i class="ph-fill ph-book-open-text"></i></div>
+                    <h3>Chuyên môn sư phạm</h3>
+                    <p>Nắm vững phương pháp giảng dạy, soạn giáo án và truyền đạt kiến thức hiệu quả cho học sinh.</p>
+                </div>
+                <div class="skill-card skill-color-2 reveal-up glass-card" style="transition-delay: 100ms;">
+                    <div class="skill-decoration"></div>
+                    <div class="skill-icon bounce-anim"><i class="ph-fill ph-users-three"></i></div>
+                    <h3>Quản lý lớp học</h3>
+                    <p>Kỹ năng tổ chức, sắp xếp, duy trì nề nếp và xử lý các tình huống sư phạm linh hoạt, thấu hiểu.</p>
+                </div>
+                <div class="skill-card skill-color-3 reveal-up glass-card" style="transition-delay: 200ms;">
+                    <div class="skill-decoration"></div>
+                    <div class="skill-icon bounce-anim"><i class="ph-fill ph-desktop"></i></div>
+                    <h3>Tin học văn phòng</h3>
+                    <p>Thành thạo các công cụ tin học phục vụ soạn giảng, thiết kế bài giảng điện tử sinh động.</p>
+                </div>
+                <div class="skill-card skill-color-4 reveal-up glass-card" style="transition-delay: 300ms;">
+                    <div class="skill-decoration"></div>
+                    <div class="skill-icon bounce-anim"><i class="ph-fill ph-microphone-stage"></i></div>
+                    <h3>Giao tiếp & Thuyết trình</h3>
+                    <p>Tự tin giao tiếp, truyền đạt thông tin mạch lạc, truyền cảm hứng trước học sinh và phụ huynh.</p>
+                </div>
+                <div class="skill-card skill-color-5 reveal-up glass-card" style="transition-delay: 400ms;">
+                    <div class="skill-decoration"></div>
+                    <div class="skill-icon bounce-anim"><i class="ph-fill ph-palette"></i></div>
+                    <h3>Thiết kế bài giảng số</h3>
+                    <p>Sử dụng thành thạo Canva, PowerPoint nâng cao để tạo bài giảng điện tử sáng tạo, trực quan, thu hút.</p>
+                </div>
+                <div class="skill-card skill-color-6 reveal-up glass-card" style="transition-delay: 500ms;">
+                    <div class="skill-decoration"></div>
+                    <div class="skill-icon bounce-anim"><i class="ph-fill ph-handshake"></i></div>
+                    <h3>Làm việc nhóm & Phối hợp</h3>
+                    <p>Tinh thần đồng đội cao, phối hợp nhịp nhàng với đồng nghiệp và phụ huynh vì mục tiêu giáo dục chung.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Divider: Skills → Contact -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,80 1440,60 L1440,120 L0,120 Z" fill="var(--bg-main)"/>
+        </svg>
+    </div>
+
+    <!-- Liên hệ -->
+    <section class="contact section-padding" id="contact">
+        <div class="section-container">
+            <div class="contact-wrapper reveal-up">
+                
+                <!-- Left: Text & CTA -->
+                <div class="contact-text-zone">
+                    <span class="section-subtitle glass-subtitle">Kết nối</span>
+                    <h2 class="section-title text-white">Sẵn sàng đồng hành cùng <span class="highlight-yellow">thế hệ trẻ</span></h2>
+                    <p class="contact-desc">Hãy liên hệ với tôi để cùng nhau tạo ra một môi trường học tập tuyệt vời nhất, chắp cánh ước mơ cho các em học sinh.</p>
+                    
+                    <div class="contact-socials">
+                        <a href="mailto:ntmha3k10chc@gmail.com" class="social-btn"><i class="ph-fill ph-envelope"></i></a>
+                        <a href="#" class="social-btn"><i class="ph-fill ph-facebook-logo"></i></a>
+                        <a href="#" class="social-btn"><i class="ph-fill ph-messenger-logo"></i></a>
+                    </div>
+                    
+                    <!-- Decorative Elements -->
+                    <div class="edu-float item-1"><i class="ph-duotone ph-paper-plane-tilt"></i></div>
+                    <div class="edu-float item-2"><i class="ph-duotone ph-star"></i></div>
+                </div>
+
+                <!-- Right: Floating Glass Cards -->
+                <div class="contact-cards-zone">
+                    <div class="info-glass-card hover-lift-3d">
+                        <div class="info-icon bg-gradient-1"><i class="ph-fill ph-phone-call"></i></div>
+                        <div class="info-text">
+                            <span>Điện thoại / Zalo</span>
+                            <a href="tel:0367057204">0367 057 204</a>
+                        </div>
+                    </div>
+                    
+                    <div class="info-glass-card hover-lift-3d delay-1">
+                        <div class="info-icon bg-gradient-2"><i class="ph-fill ph-envelope-simple"></i></div>
+                        <div class="info-text">
+                            <span>Email làm việc</span>
+                            <a href="mailto:ntmha3k10chc@gmail.com">ntmha3k10chc@gmail.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="info-glass-card hover-lift-3d delay-2">
+                        <div class="info-icon bg-gradient-3"><i class="ph-fill ph-map-pin"></i></div>
+                        <div class="info-text">
+                            <span>Khu vực</span>
+                            <p>Thanh Xuân, Hà Nội</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decorative Background (Mesh) -->
+                <div class="mesh-bg">
+                    <div class="mesh-blob blob-1"></div>
+                    <div class="mesh-blob blob-2"></div>
+                    <div class="mesh-blob blob-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <a href="#" class="logo">Minh Huyền<span>.</span></a>
+                <p>Giáo viên Tiểu học tâm huyết & sáng tạo</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Nguyễn Thị Minh Huyền. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
