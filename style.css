@@ -1701,7 +1701,7 @@ footer::before {
   .about-grid { grid-template-columns: 1fr; }
   .contact-box { grid-template-columns: 1fr; padding: 40px 24px; }
   .edu-float { display: none; }
-  .timeline::before { left: 15px; }
+  .timeline::before, .timeline::after { left: 15px; }
   .pulse-dot { left: 3px; }
   .timeline-item { padding-left: 50px; }
   
@@ -1712,9 +1712,14 @@ footer::before {
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .stat-number { font-size: 2.4rem; }
   .philosophy-pillars { grid-template-columns: 1fr; gap: 20px; }
-  .philosophy-wrapper { padding: 50px 30px; }
+  .philosophy-wrapper { padding: 50px 20px; }
   .philosophy-quote { font-size: 1.5rem; }
-  .wave-divider svg { height: 50px; }
+  .wave-divider svg { height: 40px; }
+  .section-padding { padding: 60px 0; }
+  .contact-wrapper { padding: 40px 20px; }
+  .info-glass-card { flex-direction: column; text-align: center; gap: 15px; padding: 25px 20px; }
+  .hero-actions { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; margin: 0 auto; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
 
   /* Disable custom cursor on touch */
   .custom-cursor, .custom-cursor-follower { display: none !important; }
@@ -1723,22 +1728,24 @@ footer::before {
 }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 2.8rem; }
-  .cursive-text { font-size: 1.8rem; }
+  .hero-title { font-size: 2.2rem; }
+  .cursive-text { font-size: 1.6rem; }
   .skills-grid { grid-template-columns: 1fr; }
   
   .timeline-image { height: 150px; }
   .timeline-icon { display: none; }
   
-  .section-title { font-size: 2.2rem; }
+  .section-title { font-size: 2rem; }
   .mobile-break { display: block; }
   .subtitle-divider { display: none; }
   .badge-text span:last-child { font-size: 0.9rem; }
   .glass-badge { padding: 10px 15px; gap: 10px; }
   .badge-icon-wrapper { width: 35px; height: 35px; font-size: 1.2rem; }
 
-  .stats-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
-  .stat-card { padding: 25px 15px; }
+  .stats-grid { grid-template-columns: 1fr; gap: 15px; }
+  .stat-card { padding: 20px 15px; }
   .stat-number { font-size: 2rem; }
   .philosophy-quote { font-size: 1.3rem; }
+  .info-icon { width: 50px; height: 50px; font-size: 1.5rem; }
+  .info-glass-card { padding: 20px 15px; }
 }
