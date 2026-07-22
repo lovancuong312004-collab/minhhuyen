@@ -617,4 +617,155 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         animateParticles();
     }
+
+    // --- 9. AI Chatbot Logic (Cách 2) ---
+    const toggleChatBtn = document.getElementById('toggle-chat-btn');
+    const closeChatBtn = document.getElementById('close-chat-btn');
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const chatInput = document.getElementById('chat-input');
+    const sendChatBtn = document.getElementById('send-chat-btn');
+    const chatMessages = document.getElementById('chat-messages');
+    const apiSetupOverlay = document.getElementById('api-setup-overlay');
+    const apiKeyInput = document.getElementById('api-key-input');
+    const saveApiKeyBtn = document.getElementById('save-api-key-btn');
+    
+    // Google Sheets URL for logging
+    const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbw46zJ9eK0oBN6XyepNt7G72k_9oo6Sa4OeAlYzkvyu5RgaSUt3Y_ZsXL0SZTSHJSaw/exec';
+
+    function logToSheets(sender, message) {
+        fetch(googleScriptUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ sender: sender, message: message })
+        }).catch(err => console.log('Lỗi ghi log:', err));
+    }
+    
+    let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
+    
+    // Toggle Chat
+    toggleChatBtn.addEventListener('click', () => {
+        chatbotContainer.classList.add('open');
+        toggleChatBtn.style.transform = 'scale(0)';
+        if (!geminiApiKey) {
+            apiSetupOverlay.style.display = 'flex';
+        }
+    });
+
+    closeChatBtn.addEventListener('click', () => {
+        chatbotContainer.classList.remove('open');
+        toggleChatBtn.style.transform = 'scale(1)';
+    });
+
+    // Save API Key
+    saveApiKeyBtn.addEventListener('click', () => {
+        if (apiKeyInput.value.trim()) {
+            geminiApiKey = apiKeyInput.value.trim();
+            localStorage.setItem('gemini_api_key', geminiApiKey);
+            apiSetupOverlay.style.display = 'none';
+            addBotMessage("Cảm ơn bạn! Mình đã sẵn sàng trả lời các câu hỏi bằng sức mạnh của AI. Bạn muốn hỏi gì nào? ✨");
+        }
+    });
+
+    // Add Message to UI
+    function addMessage(text, isBot = false) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${isBot ? 'bot' : 'user'}`;
+        msgDiv.innerHTML = `<div class="msg-bubble">${text}</div>`;
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function addBotMessage(text) {
+        addMessage(text, true);
+        logToSheets("AI", text);
+    }
+
+    function addUserMessage(text) {
+        addMessage(text, false);
+        logToSheets("Khách", text);
+    }
+
+    // Show/Hide Typing Indicator
+    function showTyping() {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'message bot typing-msg';
+        msgDiv.innerHTML = `<div class="msg-bubble typing-indicator"><span></span><span></span><span></span></div>`;
+        msgDiv.id = 'typing-indicator-msg';
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function hideTyping() {
+        const el = document.getElementById('typing-indicator-msg');
+        if (el) el.remove();
+    }
+
+    // Handle Send
+    async function handleSend() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        
+        addUserMessage(text);
+        chatInput.value = '';
+        
+        if (!geminiApiKey) {
+            apiSetupOverlay.style.display = 'flex';
+            return;
+        }
+
+        showTyping();
+
+        try {
+            const systemContext = `
+Bạn là AI trợ lý của Nguyễn Thị Minh Huyền. Hãy trả lời ngắn gọn, thân thiện và lịch sự.
+Thông tin về Minh Huyền:
+- Nghề nghiệp: Cử nhân Sư phạm Tiểu học (Giáo viên Tiểu học tâm huyết & sáng tạo).
+- Thành tích: GPA 3.42 (Xếp loại Giỏi). Đánh giá chuyên môn thực tập 10/10.
+- Kinh nghiệm:
+  + 10/2025 - 04/2026: Sinh viên thực tập tại Trường Tiểu học Nguyễn Trãi.
+  + 10/2024 - 11/2024: Sinh viên kiến tập tại Trường Tiểu học Lê Lợi.
+  + 12/2023 - 01/2024: Sinh viên kiến tập tại Trường Tiểu học & THCS FPT Cầu Giấy.
+Kỹ năng: Yêu trẻ, thiết kế bài giảng sáng tạo, xử lý tình huống sư phạm tốt.
+
+Người dùng hỏi: "${text}"
+            `;
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'x-goog-api-key': geminiApiKey
+                },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: systemContext }] }]
+                })
+            });
+
+            const data = await response.json();
+            hideTyping();
+
+            if (data.error) {
+                addBotMessage(`Lỗi API: ${data.error.message}`);
+                if (data.error.code === 400 || data.error.code === 403) {
+                    localStorage.removeItem('gemini_api_key');
+                    geminiApiKey = '';
+                    setTimeout(() => apiSetupOverlay.style.display = 'flex', 2000);
+                }
+            } else if (data.candidates && data.candidates.length > 0) {
+                const reply = data.candidates[0].content.parts[0].text;
+                addBotMessage(reply);
+            } else {
+                addBotMessage("Xin lỗi, mình không thể trả lời lúc này.");
+            }
+        } catch (error) {
+            hideTyping();
+            addBotMessage("Kết nối mạng có vấn đề, bạn thử lại sau nhé!");
+        }
+    }
+
+    sendChatBtn.addEventListener('click', handleSend);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSend();
+    });
+
 });
