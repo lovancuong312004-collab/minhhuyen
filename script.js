@@ -625,9 +625,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chat-input');
     const sendChatBtn = document.getElementById('send-chat-btn');
     const chatMessages = document.getElementById('chat-messages');
-    const apiSetupOverlay = document.getElementById('api-setup-overlay');
-    const apiKeyInput = document.getElementById('api-key-input');
-    const saveApiKeyBtn = document.getElementById('save-api-key-btn');
     
     // Google Sheets URL for logging
     const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbw46zJ9eK0oBN6XyepNt7G72k_9oo6Sa4OeAlYzkvyu5RgaSUt3Y_ZsXL0SZTSHJSaw/exec';
@@ -641,30 +638,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => console.log('Lỗi ghi log:', err));
     }
     
-    let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
+    const geminiApiKey = 'AQ.Ab8RN6Lg9NJrORpplmbNKqtHlVbqQPTP-HZTHF_jBd6enNq8Rg';
     
     // Toggle Chat
     toggleChatBtn.addEventListener('click', () => {
         chatbotContainer.classList.add('open');
         toggleChatBtn.style.transform = 'scale(0)';
-        if (!geminiApiKey) {
-            apiSetupOverlay.style.display = 'flex';
-        }
     });
 
     closeChatBtn.addEventListener('click', () => {
         chatbotContainer.classList.remove('open');
         toggleChatBtn.style.transform = 'scale(1)';
-    });
-
-    // Save API Key
-    saveApiKeyBtn.addEventListener('click', () => {
-        if (apiKeyInput.value.trim()) {
-            geminiApiKey = apiKeyInput.value.trim();
-            localStorage.setItem('gemini_api_key', geminiApiKey);
-            apiSetupOverlay.style.display = 'none';
-            addBotMessage("Cảm ơn bạn! Mình đã sẵn sàng trả lời các câu hỏi bằng sức mạnh của AI. Bạn muốn hỏi gì nào? ✨");
-        }
     });
 
     // Add Message to UI
@@ -708,11 +692,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         addUserMessage(text);
         chatInput.value = '';
-        
-        if (!geminiApiKey) {
-            apiSetupOverlay.style.display = 'flex';
-            return;
-        }
 
         showTyping();
 
@@ -746,11 +725,6 @@ Người dùng hỏi: "${text}"
 
             if (data.error) {
                 addBotMessage(`Lỗi API: ${data.error.message}`);
-                if (data.error.code === 400 || data.error.code === 403) {
-                    localStorage.removeItem('gemini_api_key');
-                    geminiApiKey = '';
-                    setTimeout(() => apiSetupOverlay.style.display = 'flex', 2000);
-                }
             } else if (data.candidates && data.candidates.length > 0) {
                 const reply = data.candidates[0].content.parts[0].text;
                 addBotMessage(reply);
