@@ -638,7 +638,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => console.log('Lỗi ghi log:', err));
     }
     
-    const geminiApiKey = 'AQ.Ab8RN6Lg9NJrORpplmbNKqtHlVbqQPTP-HZTHF_jBd6enNq8Rg';
+    const geminiApiKey = 'AQ.Ab8RN6JEp9iQZPYdh3TJeZne_2RIQyXP45GIAY--QAzL1fulUA';
     
     // Toggle Chat
     toggleChatBtn.addEventListener('click', () => {
@@ -709,11 +709,10 @@ Kỹ năng: Yêu trẻ, thiết kế bài giảng sáng tạo, xử lý tình hu
 
 Người dùng hỏi: "${text}"
             `;
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`, {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json',
-                    'x-goog-api-key': geminiApiKey
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     contents: [{ parts: [{ text: systemContext }] }]
