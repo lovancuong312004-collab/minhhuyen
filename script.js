@@ -626,6 +626,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendChatBtn = document.getElementById('send-chat-btn');
     const chatMessages = document.getElementById('chat-messages');
     
+    // Generate or retrieve unique Visitor ID to differentiate users in Google Sheets
+    let visitorId = localStorage.getItem('visitor_id');
+    if (!visitorId) {
+        visitorId = 'Khách_' + Math.floor(1000 + Math.random() * 9000); // e.g., Khách_4921
+        localStorage.setItem('visitor_id', visitorId);
+    }
+    
     // Google Sheets URL for logging
     const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbxSmUvan5pySa8faEr4lg_iZjAZsjxHHaE8SLglEgF7dDY7rqkFC8QSTemgfSmVh3lt/exec';
 
@@ -667,7 +674,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addUserMessage(text) {
         addMessage(text, false);
-        logToSheets("Khách", text);
+        logToSheets(visitorId, text);
     }
 
     // Show/Hide Typing Indicator
