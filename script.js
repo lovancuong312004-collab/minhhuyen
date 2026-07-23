@@ -638,7 +638,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => console.log('Lỗi ghi log:', err));
     }
     
-    const geminiApiKey = 'AQ.Ab8RN6JEp9iQZPYdh3TJeZne_2RIQyXP45GIAY--QAzL1fulUA';
+    const groqApiKey = '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';
     
     // Toggle Chat
     toggleChatBtn.addEventListener('click', () => {
@@ -705,17 +705,19 @@ Thông tin về Minh Huyền:
   + 10/2025 - 04/2026: Sinh viên thực tập tại Trường Tiểu học Nguyễn Trãi.
   + 10/2024 - 11/2024: Sinh viên kiến tập tại Trường Tiểu học Lê Lợi.
   + 12/2023 - 01/2024: Sinh viên kiến tập tại Trường Tiểu học & THCS FPT Cầu Giấy.
-Kỹ năng: Yêu trẻ, thiết kế bài giảng sáng tạo, xử lý tình huống sư phạm tốt.
-
-Người dùng hỏi: "${text}"
-            `;
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`, {
+Kỹ năng: Yêu trẻ, thiết kế bài giảng sáng tạo, xử lý tình huống sư phạm tốt.`;
+            const response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${groqApiKey}`
                 },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: systemContext }] }]
+                    model: "llama3-70b-8192",
+                    messages: [
+                        { role: "system", content: systemContext },
+                        { role: "user", content: text }
+                    ]
                 })
             });
 
@@ -724,8 +726,8 @@ Người dùng hỏi: "${text}"
 
             if (data.error) {
                 addBotMessage(`Lỗi API: ${data.error.message}`);
-            } else if (data.candidates && data.candidates.length > 0) {
-                const reply = data.candidates[0].content.parts[0].text;
+            } else if (data.choices && data.choices.length > 0) {
+                const reply = data.choices[0].message.content;
                 addBotMessage(reply);
             } else {
                 addBotMessage("Xin lỗi, mình không thể trả lời lúc này.");
