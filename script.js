@@ -713,7 +713,7 @@ Kỹ năng: Yêu trẻ, thiết kế bài giảng sáng tạo, xử lý tình hu
                     'Authorization': `Bearer ${groqApiKey}`
                 },
                 body: JSON.stringify({
-                    model: "llama3-70b-8192",
+                    model: "llama-3.3-70b-versatile",
                     messages: [
                         { role: "system", content: systemContext },
                         { role: "user", content: text }
