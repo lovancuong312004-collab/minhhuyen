@@ -630,12 +630,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbw46zJ9eK0oBN6XyepNt7G72k_9oo6Sa4OeAlYzkvyu5RgaSUt3Y_ZsXL0SZTSHJSaw/exec';
 
     function logToSheets(sender, message) {
+        const formData = new URLSearchParams();
+        formData.append('sender', sender);
+        formData.append('message', message);
+        
+        // Gửi bằng POST form data (phổ biến nhất)
         fetch(googleScriptUrl, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ sender: sender, message: message })
+            body: formData
         }).catch(err => console.log('Lỗi ghi log:', err));
+        
+        // Dự phòng gửi bằng GET parameters (vì nhiều code Google Script dùng doGet)
+        fetch(`${googleScriptUrl}?sender=${encodeURIComponent(sender)}&message=${encodeURIComponent(message)}`, {
+            method: 'GET',
+            mode: 'no-cors'
+        }).catch(e => console.log('Lỗi GET:', e));
     }
     
     const groqApiKey = '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';
