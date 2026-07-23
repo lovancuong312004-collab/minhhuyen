@@ -627,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.getElementById('chat-messages');
     
     // Google Sheets URL for logging
-    const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbxS8a46ZGQAuY2bZE7zgCpBGqSDJaPWUHYEvs5aG7LlgT260RbVw3ZwDwgClHMVTAaQ/exec';
+    const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbxSmUvan5pySa8faEr4lg_iZjAZsjxHHaE8SLglEgF7dDY7rqkFC8QSTemgfSmVh3lt/exec';
 
     function logToSheets(sender, message) {
         fetch(googleScriptUrl, {
